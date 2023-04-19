@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="MoveAndNode.fs" />
+    <Compile Include="MoveAndEvaluation.fs" />
     <Compile Include="Algorithms.fs" />
   </ItemGroup>
 
