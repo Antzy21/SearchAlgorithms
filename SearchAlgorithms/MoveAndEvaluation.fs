@@ -2,7 +2,7 @@
 
 open System.Numerics
 
-type moveAndEvaluation<'Move, 'EvalValue> when IMinMaxValue<'EvalValue> = {move : 'Move; eval: 'EvalValue}
+type moveAndEvaluation<'Move, 'EvalValue> when IMinMaxValue<'EvalValue> = {move : 'Move option; eval: 'EvalValue}
 
 module MoveAndEvaluation =
 

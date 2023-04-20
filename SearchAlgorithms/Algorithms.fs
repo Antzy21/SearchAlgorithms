@@ -8,7 +8,8 @@ module Algorithms =
     let rec minMax
         (getNodesFromParent: 'Node -> moveAndNode<'Move, 'Node> list)
         (evaulationFunction: moveAndNode<'Move, 'Node> -> 'EvalValue)
-        (depth: int) (isMaxing: bool) (parentNode: moveAndNode<'Move, 'Node>) : moveAndEvaluation<'Move,'EvalValue> =
+        (depth: int) (isMaxing: bool) (parentNode: moveAndNode<'Move, 'Node>)
+        : moveAndEvaluation<'Move,'EvalValue> =
         if depth = 0 then
             {move = parentNode.move; eval = evaulationFunction parentNode}
         else
@@ -20,8 +21,7 @@ module Algorithms =
 
                 let minMaxFunc = if isMaxing then MoveAndEvaluation.max else MoveAndEvaluation.min
                 let initValue = if isMaxing then 'EvalValue.MaxValue else 'EvalValue.MaxValue
-                // initMove will always be replaced as the eval is set to +-infinity.
-                let initMove = movesAndNodeList.Head.move
+                let initMove = None
                 let moveAndEval = {move = initMove; eval = initValue}
 
                 List.fold (fun currentOptimalMoveAndEval moveAndNode ->

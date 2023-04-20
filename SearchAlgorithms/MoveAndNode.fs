@@ -1,5 +1,5 @@
 ﻿namespace SearchAlgorithms
 
-type moveAndNode<'Move, 'Node> = {move: 'Move; node: 'Node}
+type moveAndNode<'Move, 'Node> = {move: 'Move option; node: 'Node}
 
 //module MoveAndNode =
