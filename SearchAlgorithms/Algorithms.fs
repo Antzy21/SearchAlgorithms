@@ -20,7 +20,8 @@ module Algorithms =
 
                 let minMaxFunc = if isMaxing then MoveAndEvaluation.max else MoveAndEvaluation.min
                 let initValue = if isMaxing then 'EvalValue.MaxValue else 'EvalValue.MaxValue
-                let initMove = null // This will always be replaced with a value
+                // initMove will always be replaced as the eval is set to +-infinity.
+                let initMove = movesAndNodeList.Head.move
                 let moveAndEval = {move = initMove; eval = initValue}
 
                 List.fold (fun currentOptimalMoveAndEval moveAndNode ->
