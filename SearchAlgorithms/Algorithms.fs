@@ -31,7 +31,7 @@ module Algorithms =
                 previousMove, evaulationFunction previousMove parentNode
             | movesAndNodeList ->
 
-                let initEval = if isMaxing then 'EvalValue.MaxValue else 'EvalValue.MaxValue
+                let initEval = if isMaxing then 'EvalValue.MinValue else 'EvalValue.MaxValue
                 let initMove = None
 
                 List.fold (fun optimalMoveAndEval (move, node) ->
