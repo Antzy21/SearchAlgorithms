@@ -4,29 +4,39 @@ open System.Numerics
 
 module Algorithms =
     
+    let private getMinOrMaxOfMoveAndEval (isMaxing: bool) ((move1, eval1): 'Move * 'Eval) ((move2, eval2): 'Move * 'Eval) : 'Move * 'Eval =
+        if isMaxing then
+            if eval1 > eval2 then
+                (move1, eval1)
+            else
+                (move2, eval2)
+        else
+            if eval1 < eval2 then
+                (move1, eval1)
+            else
+                (move2, eval2)
+
     /// Basic min/max function
     let rec minMax
-        (getNodesFromParent: 'Node -> moveAndNode<'Move, 'Node> list)
-        (evaulationFunction: moveAndNode<'Move, 'Node> -> 'EvalValue)
-        (depth: int) (isMaxing: bool) (parentNode: moveAndNode<'Move, 'Node>)
-        : moveAndEvaluation<'Move,'EvalValue> =
+        (getNodesFromParent: 'Node -> ('Move * 'Node) list)
+        (evaulationFunction: 'Move -> 'Node -> 'EvalValue)
+        (depth: int) (isMaxing: bool) (previousMove: 'Move) (parentNode: 'Node)
+        : 'Move * 'EvalValue when IMinMaxValue<'EvalValue> =
         if depth = 0 then
-            {move = parentNode.move; eval = evaulationFunction parentNode}
+            previousMove, evaulationFunction previousMove parentNode
         else
-            let movesAndNodeList = getNodesFromParent parentNode.node
+            let movesAndNodeList = getNodesFromParent parentNode
             match movesAndNodeList with
             | [] ->
-                {move = parentNode.move; eval = evaulationFunction parentNode}
+                previousMove, evaulationFunction previousMove parentNode
             | movesAndNodeList ->
 
-                let minMaxFunc = if isMaxing then MoveAndEvaluation.max else MoveAndEvaluation.min
-                let initValue = if isMaxing then 'EvalValue.MaxValue else 'EvalValue.MaxValue
-                let initMove = None
-                let moveAndEval = {move = initMove; eval = initValue}
+                let initEval = if isMaxing then 'EvalValue.MaxValue else 'EvalValue.MaxValue
+                let initMove = fst movesAndNodeList.Head
 
-                List.fold (fun currentOptimalMoveAndEval moveAndNode ->
-                    let nodeMoveAndEval =
-                        minMax getNodesFromParent evaulationFunction (depth-1) (not isMaxing) moveAndNode
-                    minMaxFunc currentOptimalMoveAndEval nodeMoveAndEval
-                ) moveAndEval movesAndNodeList
+                List.fold (fun optimalMoveAndEval (move, node) ->
+                    let _, eval =
+                        minMax getNodesFromParent evaulationFunction (depth-1) (not isMaxing) move node
+                    getMinOrMaxOfMoveAndEval isMaxing optimalMoveAndEval (move, eval)                     
+                ) (initMove, initEval) movesAndNodeList
         
