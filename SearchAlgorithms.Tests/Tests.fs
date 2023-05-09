@@ -42,4 +42,5 @@ let evaluationFunction (move: move option) (node: node) : int =
 [<Fact>]
 let ``Example tree`` () =
     let move, eval = Algorithms.minMax getNodesFromParent evaluationFunction 3 true None []
-    Assert.Equal(3, eval)
+    Assert.Equal(3, eval) // Minmax evaluation is 3
+    Assert.Equal(Some 0, move) // Best branch for active player is the first.
