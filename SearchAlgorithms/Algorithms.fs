@@ -78,7 +78,6 @@ module Algorithms =
                 ) (initMove, initEval, false, alpha, beta) movesAndNodeList
                 |> fun (optimalMove, optimalEval, skip, alpha, beta) -> (optimalMove, optimalEval, alpha, beta)
 
-
     let minMaxAbPruning
         (getNodesFromParent: 'Node -> ('Move * 'Node) list)
         (evaulationFunction: 'Move option -> 'Node -> 'EvalValue)
