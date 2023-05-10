@@ -3,6 +3,7 @@ module Tests
 open SearchAlgorithms
 open System
 open Xunit
+open FsCheck.Xunit
 
 type node = int list
 
@@ -42,12 +43,12 @@ let gameExample1 =
             Branches [
                 Node -6;
                 Node -4
-        ];
+            ];
             Branches [
                 Node 0;
                 Node 9
+            ]
         ]
-    ]
     ]
 
 // Expected:
@@ -83,3 +84,12 @@ let ``Example for ab pruning`` () =
     let move, eval = Algorithms.minMaxAbPruning getNodesFromParent evaluationFunction 3 true None []
     Assert.Equal(3, eval) // Minmax evaluation is 3
     Assert.Equal(Some 0, move) // Best branch for active player is the first.
+
+[<Property>]
+let ``minMax and ab pruning return same result`` (seed: int) =
+    let r = new Random(seed)
+    let game = generateTestGame r 4 4
+    let evaluationFunction = evaluationFunctionForGame game
+    let resultFromMinMax = Algorithms.minMax getNodesFromParent evaluationFunction 4 true None []
+    let resultFromAbPrune = Algorithms.minMaxAbPruning getNodesFromParent evaluationFunction 4 true None []
+    Assert.Equal(resultFromMinMax, resultFromAbPrune)
