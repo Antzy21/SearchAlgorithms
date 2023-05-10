@@ -36,7 +36,7 @@ let getNodesFromParent (node: node) : (move * node) list =
 let evaluationFunction (move: move option) (node: node) : int =
     match node with
     | [i1; i2; i3] ->
-        game.[i1].[i2].[i3]
+        game.[i3].[i2].[i1]
     | _ -> failwith "Only check 3 levels deep"
 
 [<Fact>]
