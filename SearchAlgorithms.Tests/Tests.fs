@@ -40,7 +40,13 @@ let evaluationFunction (move: move option) (node: node) : int =
     | _ -> failwith "Only check 3 levels deep"
 
 [<Fact>]
-let ``Example tree`` () =
+let ``Example for minMax`` () =
     let move, eval = Algorithms.minMax getNodesFromParent evaluationFunction 3 true None []
+    Assert.Equal(3, eval) // Minmax evaluation is 3
+    Assert.Equal(Some 0, move) // Best branch for active player is the first.
+    
+[<Fact>]
+let ``Example for minMax with ab pruning`` () =
+    let move, eval = Algorithms.minMaxAbPruning getNodesFromParent evaluationFunction 3 true None []
     Assert.Equal(3, eval) // Minmax evaluation is 3
     Assert.Equal(Some 0, move) // Best branch for active player is the first.
