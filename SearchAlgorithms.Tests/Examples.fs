@@ -61,4 +61,4 @@ let ``Stale game is resolved`` () =
     let evaluationFunction = evaluationFunctionForGame staleGame
     let getNodesFromParent = getNodesFromParentForGame staleGame
     let move, eval = Algorithms.minMaxAbPruning getNodesFromParent evaluationFunction 3 true None []
-    Assert.True    
+    Assert.Equal(None, move)
