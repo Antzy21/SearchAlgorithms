@@ -13,7 +13,7 @@ let ``minMax and ab pruning return same result`` (seed: int) =
     let branchCount = 4
     let game = generateTestGame r depth branchCount
     let evaluationFunction = evaluationFunctionForGame game
-    let getNodesFromParent = getNodesFromParentWithBranchCount branchCount
+    let getNodesFromParent = getNodesFromParentForGame game
     let resultFromMinMax = Algorithms.minMax getNodesFromParent evaluationFunction depth true None []
     let resultFromAbPrune = Algorithms.minMaxAbPruning getNodesFromParent evaluationFunction depth true None []
     Assert.Equal(resultFromMinMax, resultFromAbPrune)
@@ -30,11 +30,18 @@ let evaluationFunctionForProceduralyGeneratedGame (move: move option) (node: nod
     |> (fun i -> new Random(i))
     |> fun r -> r.Next()
 
+let getNodesFromParentForProceduralyGeneratedGame (branchCount: int) (node: node) =
+    [0..branchCount-1]
+    |> List.map (fun i -> 
+        i,
+        List.append node [i]
+    )
+
 [<Fact>]
 let ``Ab is fast`` () =
     let branchCount = 7
     let depth = 8
-    let getNodesFromParent = getNodesFromParentWithBranchCount branchCount
+    let getNodesFromParent = getNodesFromParentForProceduralyGeneratedGame branchCount
     
     // normal min max takes ~30 seconds
     let resultFromMinMax = Algorithms.minMaxAbPruning getNodesFromParent evaluationFunctionForProceduralyGeneratedGame depth true None []

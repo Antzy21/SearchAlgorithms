@@ -41,7 +41,7 @@ let gameExample1 =
 [<Fact>]
 let ``Example1 for minMax`` () =
     let evaluationFunction = evaluationFunctionForGame gameExample1
-    let getNodesFromParent = getNodesFromParentWithBranchCount 2
+    let getNodesFromParent = getNodesFromParentForGame gameExample1
     let move, eval = Algorithms.minMax getNodesFromParent evaluationFunction 3 true None []
     Assert.Equal(3, eval) // Minmax evaluation is 3
     Assert.Equal(Some 0, move) // Best branch for active player is the first.
@@ -49,7 +49,16 @@ let ``Example1 for minMax`` () =
 [<Fact>]
 let ``Example1 for ab pruning`` () =
     let evaluationFunction = evaluationFunctionForGame gameExample1
-    let getNodesFromParent = getNodesFromParentWithBranchCount 2
+    let getNodesFromParent = getNodesFromParentForGame gameExample1
     let move, eval = Algorithms.minMaxAbPruning getNodesFromParent evaluationFunction 3 true None []
     Assert.Equal(3, eval) // Minmax evaluation is 3
     Assert.Equal(Some 0, move) // Best branch for active player is the first.
+
+let staleGame = Node 0
+
+[<Fact>]
+let ``Stale game is resolved`` () =
+    let evaluationFunction = evaluationFunctionForGame staleGame
+    let getNodesFromParent = getNodesFromParentForGame staleGame
+    let move, eval = Algorithms.minMaxAbPruning getNodesFromParent evaluationFunction 3 true None []
+    Assert.True    
