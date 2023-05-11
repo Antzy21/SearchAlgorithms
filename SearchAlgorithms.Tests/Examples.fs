@@ -62,3 +62,20 @@ let ``Stale game is resolved`` () =
     let getNodesFromParent = getNodesFromParentForGame staleGame
     let move, eval = Algorithms.minMaxAbPruning getNodesFromParent evaluationFunction 3 true None []
     Assert.Equal(None, move)
+
+let branchEndsEarlyGame =
+    Branches [
+        Branches [
+            Node 1;
+            Node 2;
+            Node 3;
+        ];
+        Node 5;
+    ]
+
+[<Fact>]
+let ``Early termination of Game is resolved`` () =
+    let evaluationFunction = evaluationFunctionForGame branchEndsEarlyGame
+    let getNodesFromParent = getNodesFromParentForGame branchEndsEarlyGame
+    let move, eval = Algorithms.minMaxAbPruning getNodesFromParent evaluationFunction 3 true None []
+    Assert.Equal(5, eval)
