@@ -21,7 +21,7 @@ let ``minMax and ab pruning return same result`` (seed: int) =
 // This avoids having to generate the game tree before hand, which can be expensive,
 // but it also maintains unique, random and seeded values at each node,
 // by using the branch list to seed a Random object.
-let evaluationFunctionForProceduralyGeneratedGame (move: move option) (node: node) : int =
+let evaluationFunctionForProceduralyGeneratedGame move node : int =
     node
     |> List.fold (fun acc i ->
         acc + $"{i}"
@@ -30,7 +30,7 @@ let evaluationFunctionForProceduralyGeneratedGame (move: move option) (node: nod
     |> (fun i -> new Random(i))
     |> fun r -> r.Next()
 
-let getNodesFromParentForProceduralyGeneratedGame (branchCount: int) (node: node) =
+let getNodesFromParentForProceduralyGeneratedGame (branchCount: int) node =
     [0..branchCount-1]
     |> List.map (fun i -> 
         i,
