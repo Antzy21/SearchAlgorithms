@@ -6,12 +6,12 @@ module Algorithms =
     
     let private getMinOrMaxOfMoveAndEval (isMaxing: bool) ((move1, eval1): 'Move * 'Eval) ((move2, eval2): 'Move * 'Eval) : 'Move * 'Eval =
         if isMaxing then
-            if eval1 > eval2 then
+            if eval1 >= eval2 then
                 (move1, eval1)
             else
                 (move2, eval2)
         else
-            if eval1 < eval2 then
+            if eval1 <= eval2 then
                 (move1, eval1)
             else
                 (move2, eval2)
@@ -64,16 +64,16 @@ module Algorithms =
                     else
                         let _, eval =
                             alphaBetaPruning getNodesFromParent evaulationFunction (depth-1) (not isMaxing) (Some move) node alpha beta
-                        let (newOptimalEval, newOptimalMove) = getMinOrMaxOfMoveAndEval isMaxing (optimalMove, optimalEval) (Some move, eval)                     
+                        let (newOptimalMove, newOptimalEval) = getMinOrMaxOfMoveAndEval isMaxing (optimalMove, optimalEval) (Some move, eval)                     
                         
                         if isMaxing then
                             let newAlpha = max alpha eval
                             let skip = beta <= newAlpha
-                            (newOptimalEval, newOptimalMove, skip, newAlpha, beta)
+                            (newOptimalMove, newOptimalEval, skip, newAlpha, beta)
                         else
                             let newBeta = min beta eval
                             let skip = newBeta <= alpha
-                            (newOptimalEval, newOptimalMove, skip, alpha, newBeta)
+                            (newOptimalMove, newOptimalEval, skip, alpha, newBeta)
                         
                 ) (initMove, initEval, false, alpha, beta) movesAndNodeList
                 |> fun (optimalMove, optimalEval, skip, alpha, beta) -> (optimalMove, optimalEval)
