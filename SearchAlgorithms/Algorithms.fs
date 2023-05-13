@@ -6,12 +6,12 @@ module Algorithms =
     
     let private getMinOrMaxOfMoveAndEval (isMaxing: bool) ((move1, eval1): 'Move * 'Eval) ((move2, eval2): 'Move * 'Eval) : 'Move * 'Eval =
         if isMaxing then
-            if eval1 > eval2 then
+            if eval1 >= eval2 then
                 (move1, eval1)
             else
                 (move2, eval2)
         else
-            if eval1 < eval2 then
+            if eval1 <= eval2 then
                 (move1, eval1)
             else
                 (move2, eval2)
